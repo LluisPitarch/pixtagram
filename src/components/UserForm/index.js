@@ -32,6 +32,7 @@ const UserForm = ({ onSubmit, title }) => {
       })
       setDisabled(false)
       onSubmit(response.data.signup || response.data.login)
+      window.location.href = '/'
     } catch (error) {
       setDisabled(false)
       setErrorForm(error)

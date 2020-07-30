@@ -10,13 +10,12 @@ const DEFAULT_IMAGE =
 import { Article, ImgContainer, Img, Button, Span } from './styles'
 
 // Hooks
-import useLocalStorage from '../../hooks/useLocalStorage'
 import useNearScreen from '../../hooks/useNearScreen'
 
 // Import const TOGGLE_LIKE
 const TOGGLE_LIKE = gql`
-  mutation likeAnonymousPhoto($input: LikePhoto!) {
-    likeAnonymousPhoto(input: $input) {
+  mutation likePhoto($input: LikePhoto!) {
+    likePhoto(input: $input) {
       id
       liked
       likes
@@ -30,8 +29,7 @@ import { IoIosHeartEmpty, IoIosHeart } from 'react-icons/io'
 /*                                  Component                                 */
 /* -------------------------------------------------------------------------- */
 
-export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
-  const [liked, setLiked] = useLocalStorage(id, false)
+export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE, liked }) => {
   const [toggleLike] = useMutation(TOGGLE_LIKE, {
     variables: { input: { id } },
   })
@@ -40,7 +38,6 @@ export const PhotoCard = ({ id, likes = 0, src = DEFAULT_IMAGE }) => {
   const Icon = liked ? IoIosHeart : IoIosHeartEmpty
 
   const handleFavClick = () => {
-    setLiked(!liked)
     toggleLike()
   }
   return (
